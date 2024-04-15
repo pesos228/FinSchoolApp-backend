@@ -8,9 +8,12 @@ import com.auth0.jwt.interfaces.DecodedJWT
 import com.finschool.Server.dto.JwtTokenResponse
 import com.finschool.Server.models.User
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Component
+import org.springframework.stereotype.Service
 import java.time.ZonedDateTime
 import java.util.*
 
+@Service
 class JwtUtil(@Value("\${jwt.secret.access}")
               private val accessSecret: String,
 
