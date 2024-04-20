@@ -19,8 +19,12 @@ class AuthController(private val authorizationService: AuthorizationService, pri
 
 
     @PostMapping("/register")
-    fun register(@RequestBody user: User, bindingResult: BindingResult): ResponseEntity<JwtTokenResponse> {
+    fun register(@RequestBody user: User, bindingResult: BindingResult): ResponseEntity<Any> {
         userNotExistsValidator.validate(user, bindingResult)
+        if (bindingResult.hasErrors()) {
+            val errorMessages = bindingResult.allErrors.map { it.defaultMessage ?: "Validation error" }
+            return ResponseEntity.badRequest().body(errorMessages)
+        }
         return ResponseEntity(authorizationService.saveUserAndReturnJwtResponse(user), HttpStatus.CREATED)
     }
 

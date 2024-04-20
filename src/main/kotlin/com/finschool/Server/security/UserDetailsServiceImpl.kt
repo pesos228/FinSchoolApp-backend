@@ -21,4 +21,13 @@ class UserDetailsServiceImpl @Autowired constructor(private val userRepository: 
             throw UsernameNotFoundException("User not found for login: $login")
         }
     }
+
+    fun loadUserByMail(mail: String): UserDetails {
+        val user = userRepository.findByMail(mail)
+        if (user != null) {
+            return UserDetailsImpl(user)
+        } else {
+            throw UsernameNotFoundException("User not found for email: $mail")
+        }
+    }
 }

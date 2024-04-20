@@ -21,11 +21,16 @@ class UserNotExistsValidator(private val userDetailsService: UserDetailsServiceI
 
         try {
             userDetailsService.loadUserByUsername(user.login)
+            errors.rejectValue("login", "user.exists", "Account with this login already exists.")
         } catch (ex: UsernameNotFoundException) {
-            // пользователь не найден, валидация успешно пройдена
-            return
+            // Логин свободен.
         }
 
-        errors.rejectValue("email", "", "Client with this email already exists!")
+        try {
+            userDetailsService.loadUserByMail(user.mail)
+            errors.rejectValue("mail", "user.exists", "Account with this email already exists.")
+        } catch (ex: UsernameNotFoundException) {
+            // Mail свободен.
+        }
     }
 }
