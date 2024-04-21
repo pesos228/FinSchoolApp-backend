@@ -32,4 +32,5 @@ class AuthController(private val authorizationService: AuthorizationService, pri
     fun login(@RequestBody loginDto: UserLoginDto): ResponseEntity<JwtTokenResponse> {
         return ResponseEntity.ok(authorizationService.login(loginDto))
     }
+
 }
