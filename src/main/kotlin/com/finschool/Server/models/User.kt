@@ -25,7 +25,7 @@ class User (
     @Column(nullable = false, name = "Lvl")
     var lvl: Int = 1,
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "SavedThemes",
             joinColumns = [JoinColumn(name = "UserId", referencedColumnName = "UserId")],
@@ -33,7 +33,7 @@ class User (
     )
     val savedThemes: MutableList<Theme> = mutableListOf(),
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "AchievementUsers",
             joinColumns = [JoinColumn(name = "UserId", referencedColumnName = "UserId")],

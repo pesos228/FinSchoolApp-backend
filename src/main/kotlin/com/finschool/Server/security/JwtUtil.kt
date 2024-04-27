@@ -58,7 +58,7 @@ class JwtUtil(@Value("\${jwt.secret.access}")
         return JwtTokenResponse(generateAccessToken(user), generateRefreshToken(user))
     }
 
-    fun validateAccessTokenAndRetrieveClaim(token: String): String {
+    fun validateAccessTokenAndRetrieveClaim(token: String?): String {
         val verifier: JWTVerifier = JWT.require(Algorithm.HMAC256(accessSecret))
                 .withSubject(USER_DETAILS)
                 .withIssuer(ISSUER)
@@ -72,7 +72,21 @@ class JwtUtil(@Value("\${jwt.secret.access}")
         }
     }
 
-    fun validateAccessToken(token: String): Boolean {
+    fun validateRefreshTokenAndRetrieveClaim(token: String): String {
+        val verifier: JWTVerifier = JWT.require(Algorithm.HMAC256(refreshSecret))
+            .withSubject(USER_DETAILS)
+            .withIssuer(ISSUER)
+            .build()
+
+        return try {
+            val jwt: DecodedJWT = verifier.verify(token)
+            jwt.getClaim(LOGIN).asString()
+        } catch (e: JWTVerificationException) {
+            throw IllegalArgumentException("Invalid refresh token!")
+        }
+    }
+
+    fun validateAccessToken(token: String?): Boolean {
         return try {
             val verifier: JWTVerifier = JWT.require(Algorithm.HMAC256(accessSecret))
                 .withSubject(USER_DETAILS)

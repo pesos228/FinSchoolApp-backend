@@ -1,6 +1,5 @@
 package com.finschool.Server.security
 
-import com.finschool.Server.repo.UserRepository
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.stereotype.Component
