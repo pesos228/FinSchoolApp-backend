@@ -9,11 +9,11 @@ class Achievement (
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, unique = true, name = "AchId")
-    val id: Int,
+    val id: Int? = null,
 
     @Column(nullable = false, unique = true, length = 250, name = "AchName")
     var name: String,
 
-    @ManyToMany(mappedBy = "achievementsReceived")
+    @ManyToMany(mappedBy = "achievementsReceived", fetch = FetchType.EAGER)
     val users: MutableList<User> = mutableListOf()
 )
