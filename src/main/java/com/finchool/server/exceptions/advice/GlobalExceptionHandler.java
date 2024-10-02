@@ -1,8 +1,6 @@
 package com.finchool.server.exceptions.advice;
 
-import com.finchool.server.exceptions.AchievementAlreadyExistsException;
-import com.finchool.server.exceptions.AchievementNotFoundException;
-import com.finchool.server.exceptions.UserNotFoundException;
+import com.finchool.server.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -32,4 +30,14 @@ public class GlobalExceptionHandler {
     String userNotFoundException(UserNotFoundException e){
         return e.getMessage();
     }
+
+    @ResponseBody
+    @ExceptionHandler(StorageFileNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String storageFileNotFoundException(StorageFileNotFoundException e){return e.getMessage();}
+
+    @ResponseBody
+    @ExceptionHandler(StorageException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    String storageException(StorageException e){return e.getMessage();}
 }
