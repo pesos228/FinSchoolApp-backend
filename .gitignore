@@ -200,3 +200,4 @@ README.html
 .idea
 .exercism
 ./uploads
+/src/main/resources/application.properties

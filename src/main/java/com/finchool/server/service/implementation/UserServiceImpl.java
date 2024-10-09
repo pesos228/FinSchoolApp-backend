@@ -1,5 +1,6 @@
 package com.finchool.server.service.implementation;
 
+import com.finchool.server.dto.AchievementNameDto;
 import com.finchool.server.dto.AddAchievementToUserDto;
 import com.finchool.server.dto.UserAndroidIdDto;
 import com.finchool.server.dto.UserDto;
@@ -14,6 +15,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -47,7 +51,7 @@ public class UserServiceImpl implements UserService {
         if (user == null){
             throw new UserNotFoundException("User with android_id "+addAchievementToUserDto.getAndroidId()+" not found");
         }
-        Achievement achievement = achievementRepository.findById(addAchievementToUserDto.getAndroidId());
+        Achievement achievement = achievementRepository.findById(addAchievementToUserDto.getAchievementId());
         if (achievement == null){
             throw new AchievementNotFoundException("Achievement with ID "+ addAchievementToUserDto.getAchievementId()+ " not found");
         }
@@ -63,7 +67,7 @@ public class UserServiceImpl implements UserService {
         if (user == null){
             throw new UserNotFoundException("User with android_id "+addAchievementToUserDto.getAndroidId()+" not found");
         }
-        Achievement achievement = achievementRepository.findById(addAchievementToUserDto.getAndroidId());
+        Achievement achievement = achievementRepository.findById(addAchievementToUserDto.getAchievementId());
         if (achievement == null){
             throw new AchievementNotFoundException("Achievement with ID "+ addAchievementToUserDto.getAchievementId()+ " not found");
         }
@@ -73,12 +77,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findByAndroidId(UserAndroidIdDto userAndroidIdDto) {
+    public UserDto findUserDtoByAndroidId(UserAndroidIdDto userAndroidIdDto) {
         User user = userRepository.findByAndroidId(userAndroidIdDto.getAndroidId());
         if (user == null) {
             throw new UserNotFoundException("User not found with Android ID: " + userAndroidIdDto.getAndroidId());
         }
         return modelMapper.map(user, UserDto.class);
     }
+
+    @Override
+    public User findUserByAndroidId(int id) {
+        User user = userRepository.findByAndroidId(id);
+        if(user == null){
+            throw new UserNotFoundException("User not found with Android ID: " + id);
+        }
+        return user;
+    }
+
+    @Override
+    public List<AchievementNameDto> getUserAchievements(UserAndroidIdDto userAndroidIdDto) {
+        User user = userRepository.findByAndroidId(userAndroidIdDto.getAndroidId());
+        if (user == null) {
+            throw new UserNotFoundException("User not found with Android ID: " + userAndroidIdDto.getAndroidId());
+        }
+        return userRepository.getUserAchievements(userAndroidIdDto.getAndroidId()).stream()
+                .map(achievement -> modelMapper.map(achievement, AchievementNameDto.class))
+                .collect(Collectors.toList());
+    }
+
 
 }

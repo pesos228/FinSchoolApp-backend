@@ -1,11 +1,16 @@
 package com.finchool.server.repository.implementation;
 
+import com.finchool.server.dto.AchievementDto;
+import com.finchool.server.dto.AchievementNameDto;
+import com.finchool.server.entities.Achievement;
 import com.finchool.server.entities.User;
 import com.finchool.server.repository.UserRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class UserRepositoryImpl implements UserRepository {
@@ -30,5 +35,12 @@ public class UserRepositoryImpl implements UserRepository {
         } catch (NoResultException e) {
             return null;
         }
+    }
+
+    @Override
+    public List<Achievement> getUserAchievements(int id) {
+        return entityManager.createQuery("SELECT a FROM User u JOIN u.achievementsReceived a WHERE u.androidId = :id", Achievement.class)
+                .setParameter("id", id)
+                .getResultList();
     }
 }

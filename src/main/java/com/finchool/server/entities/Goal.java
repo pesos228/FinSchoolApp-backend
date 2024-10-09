@@ -3,11 +3,13 @@ package com.finchool.server.entities;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
-@Table(name = "goal_users")
+@Table(name = "goal")
 public class Goal extends BaseEntity{
-    private User user;
+    private List<User> users = new ArrayList<>();
     private String name;
     private BigDecimal targetAmount;
     private BigDecimal currentAmount = BigDecimal.ZERO;
@@ -15,22 +17,25 @@ public class Goal extends BaseEntity{
 
     protected Goal(){}
 
-    public Goal(User user, String name, BigDecimal targetAmount, BigDecimal currentAmount, String photoUrl) {
-        this.user = user;
+    public Goal(String name, BigDecimal targetAmount, BigDecimal currentAmount, String photoUrl) {
         this.name = name;
         this.targetAmount = targetAmount;
         this.currentAmount = currentAmount;
         this.photoUrl = photoUrl;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "users_id")
-    public User getUser() {
-        return user;
+    @ManyToMany
+    @JoinTable(
+            name = "user_goals",
+            joinColumns = @JoinColumn(name = "goal_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id")
+    )
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 
     @Column(nullable = true, name = "name")

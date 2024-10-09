@@ -13,14 +13,25 @@ public class User extends BaseEntity {
     private int lvl = 1;
     private List<Theme> savedThemes = new ArrayList<>();
     private List<Achievement> achievementsReceived = new ArrayList<>();
+    private List<Goal> goals = new ArrayList<>();
     protected User(){}
 
-    public User(int androidId, String name, int lvl, List<Theme> savedThemes, List<Achievement> achievementsReceived) {
+    public User(int androidId, String name, int lvl, List<Theme> savedThemes, List<Achievement> achievementsReceived, List<Goal> goals) {
         this.androidId = androidId;
         this.name = name;
         this.lvl = lvl;
         this.savedThemes = savedThemes;
         this.achievementsReceived = achievementsReceived;
+        this.goals = goals;
+    }
+
+    @ManyToMany(mappedBy = "users")
+    public List<Goal> getGoals() {
+        return goals;
+    }
+
+    public void setGoals(List<Goal> goals) {
+        this.goals = goals;
     }
 
     @Column(nullable = false, unique = true, name = "android_id")
@@ -66,8 +77,8 @@ public class User extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "users_achievement",
-            joinColumns = @JoinColumn(name = "users_id"),
+            name = "user_achievement",
+            joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "achievement_id")
     )
     public List<Achievement> getAchievementsReceived() {

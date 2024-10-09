@@ -1,9 +1,10 @@
 package com.finchool.server.config;
 
-import com.finchool.server.dto.AchievementDto;
 import com.finchool.server.dto.AchievementNameDto;
+import com.finchool.server.dto.GoalDtoSave;
 import com.finchool.server.dto.UserDto;
 import com.finchool.server.entities.Achievement;
+import com.finchool.server.entities.Goal;
 import com.finchool.server.entities.User;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -35,6 +36,17 @@ public class ModelMapperConfig {
                 skip().setId(null);
                 map().setName(source.getName());
                 skip().setUsers(null);
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<GoalDtoSave, Goal>() {
+            @Override
+            protected void configure() {
+                skip().setId(null);
+                map().setName(source.getName());
+                map().setTargetAmount(source.getTargetAmount());
+                map().setCurrentAmount(source.getCurrentAmount());
+                map().setPhotoUrl(source.getPhotoUrl());
             }
         });
         return modelMapper;

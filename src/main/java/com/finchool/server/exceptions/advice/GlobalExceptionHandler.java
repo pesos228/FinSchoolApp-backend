@@ -1,5 +1,6 @@
 package com.finchool.server.exceptions.advice;
 
+import com.finchool.server.entities.Goal;
 import com.finchool.server.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,4 +41,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(StorageException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     String storageException(StorageException e){return e.getMessage();}
+
+    @ResponseBody
+    @ExceptionHandler(GoalNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String GoalNotFoundException(GoalNotFoundException e){return e.getMessage();}
+
+    @ResponseBody
+    @ExceptionHandler(GoalUrlAlreadyExistsException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String userAlreadyExistsHandler(GoalUrlAlreadyExistsException e){
+        return e.getMessage();
+    }
+
 }
