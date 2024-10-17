@@ -54,4 +54,8 @@ public class GlobalExceptionHandler {
         return e.getMessage();
     }
 
+    @ResponseBody
+    @ExceptionHandler(ThemeNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String themeNotFoundException(ThemeNotFoundException e){return e.getMessage();}
 }

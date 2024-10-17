@@ -3,6 +3,7 @@ package com.finchool.server.repository.implementation;
 import com.finchool.server.entities.Theme;
 import com.finchool.server.repository.ThemeRepository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
@@ -21,6 +22,17 @@ public class ThemeRepositoryImpl implements ThemeRepository {
         }
         else {
             entityManager.persist(theme);
+        }
+    }
+
+    @Override
+    public Theme findById(int id) {
+        try {
+            return entityManager.createQuery("SELECT t FROM Theme t WHERE t.id = :id", Theme.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        }catch (NoResultException e){
+            return null;
         }
     }
 

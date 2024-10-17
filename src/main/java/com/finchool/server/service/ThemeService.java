@@ -1,11 +1,12 @@
 package com.finchool.server.service;
 
-import com.finchool.server.entities.Theme;
+import com.finchool.server.dto.ThemeDto;
+import com.finchool.server.dto.ThemeDtoList;
 
 import java.util.List;
 
 public interface ThemeService {
-    void save(Theme theme);
+    void save(ThemeDto themeDto);
     void deleteById(int id);
-    List<Theme> findAll();
+    List<ThemeDtoList> findAll();
 }

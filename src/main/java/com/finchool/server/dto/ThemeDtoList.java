@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ThemeDto {
+public class ThemeDtoList {
+    private int id;
     private String name;
 }
