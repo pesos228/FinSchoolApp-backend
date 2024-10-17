@@ -2,7 +2,7 @@ package com.finchool.server.service.implementation;
 
 import com.finchool.server.dto.AchievementNameDto;
 import com.finchool.server.dto.AddAchievementToUserDto;
-import com.finchool.server.dto.UserAndroidIdDto;
+import com.finchool.server.dto.GoalDtoList;
 import com.finchool.server.dto.UserDto;
 import com.finchool.server.entities.Achievement;
 import com.finchool.server.entities.User;
@@ -77,31 +77,33 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto findUserDtoByAndroidId(UserAndroidIdDto userAndroidIdDto) {
-        User user = userRepository.findByAndroidId(userAndroidIdDto.getAndroidId());
+    public UserDto findUserByAndroidId(int id) {
+        User user = userRepository.findByAndroidId(id);
         if (user == null) {
-            throw new UserNotFoundException("User not found with Android ID: " + userAndroidIdDto.getAndroidId());
+            throw new UserNotFoundException("User not found with Android ID: " + id);
         }
         return modelMapper.map(user, UserDto.class);
     }
 
     @Override
-    public User findUserByAndroidId(int id) {
+    public List<AchievementNameDto> getUserAchievements(int id) {
         User user = userRepository.findByAndroidId(id);
-        if(user == null){
+        if (user == null) {
             throw new UserNotFoundException("User not found with Android ID: " + id);
         }
-        return user;
+        return userRepository.getUserAchievements(id).stream()
+                .map(achievement -> modelMapper.map(achievement, AchievementNameDto.class))
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<AchievementNameDto> getUserAchievements(UserAndroidIdDto userAndroidIdDto) {
-        User user = userRepository.findByAndroidId(userAndroidIdDto.getAndroidId());
-        if (user == null) {
-            throw new UserNotFoundException("User not found with Android ID: " + userAndroidIdDto.getAndroidId());
+    public List<GoalDtoList> getUserGoals(int id) {
+        User user = userRepository.findByAndroidId(id);
+        if(user == null){
+            throw new UserNotFoundException("User not found with Android ID: " +id);
         }
-        return userRepository.getUserAchievements(userAndroidIdDto.getAndroidId()).stream()
-                .map(achievement -> modelMapper.map(achievement, AchievementNameDto.class))
+        return userRepository.getUserGoals(id).stream()
+                .map(goal -> modelMapper.map(goal, GoalDtoList.class))
                 .collect(Collectors.toList());
     }
 

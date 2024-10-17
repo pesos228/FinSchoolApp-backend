@@ -1,8 +1,6 @@
 package com.finchool.server.service.implementation;
 
 import com.finchool.server.dto.AchievementDto;
-import com.finchool.server.dto.AchievementIdDto;
-import com.finchool.server.dto.AchievementNameDto;
 import com.finchool.server.entities.Achievement;
 import com.finchool.server.exceptions.AchievementAlreadyExistsException;
 import com.finchool.server.exceptions.AchievementNotFoundException;
@@ -27,23 +25,23 @@ public class AchievementServiceImpl implements AchievementService {
     }
 
     @Transactional
-    public void save(AchievementNameDto achievementNameDto){
-        Achievement achievement = achievementRepository.findByName(achievementNameDto.getName());
+    public void save(String name){
+        Achievement achievement = achievementRepository.findByName(name);
         if (achievement != null){
-            throw new AchievementAlreadyExistsException("Achievement "+achievementNameDto.getName()+" already exists");
+            throw new AchievementAlreadyExistsException("Achievement "+name+" already exists");
         }
-        System.out.println(achievementNameDto.getName());
-        achievementRepository.save(modelMapper.map(achievementNameDto, Achievement.class));
+        System.out.println(name);
+        achievementRepository.save(modelMapper.map(name, Achievement.class));
     }
 
     @Override
     @Transactional
-    public void deleteById(AchievementIdDto achievementIdDto) {
-        Achievement achievement = achievementRepository.findById(achievementIdDto.getId());
+    public void deleteById(int id) {
+        Achievement achievement = achievementRepository.findById(id);
         if (achievement == null){
-            throw new AchievementNotFoundException("Achievement "+achievementIdDto.getId()+ " not found");
+            throw new AchievementNotFoundException("Achievement "+id+ " not found");
         }
-        achievementRepository.deleteById(achievementIdDto.getId());
+        achievementRepository.deleteById(id);
     }
 
     @Override

@@ -1,8 +1,6 @@
 package com.finchool.server.controller;
 
 import com.finchool.server.dto.AchievementDto;
-import com.finchool.server.dto.AchievementIdDto;
-import com.finchool.server.dto.AchievementNameDto;
 import com.finchool.server.service.AchievementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,13 +22,13 @@ public class AchievementController {
         return achievementService.findAll();
     }
 
-    @PostMapping
-    public void save(@RequestBody AchievementNameDto achievementNameDto){
-        achievementService.save(achievementNameDto);
+    @PostMapping("/{name}")
+    public void save(@PathVariable String name){
+        achievementService.save(name);
     }
 
-    @DeleteMapping
-    public void deleteById(@RequestBody AchievementIdDto achievementIdDto){
-        achievementService.deleteById(achievementIdDto);
+    @DeleteMapping("/{id}")
+    public void deleteById(@PathVariable int id){
+        achievementService.deleteById(id);
     }
 }

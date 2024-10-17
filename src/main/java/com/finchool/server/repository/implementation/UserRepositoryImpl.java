@@ -1,8 +1,7 @@
 package com.finchool.server.repository.implementation;
 
-import com.finchool.server.dto.AchievementDto;
-import com.finchool.server.dto.AchievementNameDto;
 import com.finchool.server.entities.Achievement;
+import com.finchool.server.entities.Goal;
 import com.finchool.server.entities.User;
 import com.finchool.server.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -40,6 +39,13 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public List<Achievement> getUserAchievements(int id) {
         return entityManager.createQuery("SELECT a FROM User u JOIN u.achievementsReceived a WHERE u.androidId = :id", Achievement.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
+
+    @Override
+    public List<Goal> getUserGoals(int id) {
+        return entityManager.createQuery("SELECT g FROM Goal g JOIN g.users u WHERE u.androidId = :id", Goal.class)
                 .setParameter("id", id)
                 .getResultList();
     }

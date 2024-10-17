@@ -2,7 +2,7 @@ package com.finchool.server.controller;
 
 import com.finchool.server.dto.AchievementNameDto;
 import com.finchool.server.dto.AddAchievementToUserDto;
-import com.finchool.server.dto.UserAndroidIdDto;
+import com.finchool.server.dto.GoalDtoList;
 import com.finchool.server.dto.UserDto;
 import com.finchool.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @GetMapping
-    public UserDto getUser(@RequestBody UserAndroidIdDto userAndroidIdDto){
-        return userService.findUserDtoByAndroidId(userAndroidIdDto);
+    @GetMapping("/{id}")
+    public UserDto getUser(@PathVariable int id){
+        return userService.findUserByAndroidId(id);
     }
 
     @PostMapping
@@ -40,8 +40,13 @@ public class UserController {
         userService.removeAchievement(addAchievementToUserDto);
     }
 
-    @GetMapping("/achievements")
-    public List<AchievementNameDto> getUserAchievements(@RequestBody UserAndroidIdDto userAndroidIdDto){
-        return userService.getUserAchievements(userAndroidIdDto);
+    @GetMapping("/achievements/{id}")
+    public List<AchievementNameDto> getUserAchievements(@PathVariable int id){
+        return userService.getUserAchievements(id);
+    }
+
+    @GetMapping("/goals/{id}")
+    public List<GoalDtoList> getGoal(@PathVariable int id){
+        return userService.getUserGoals(id);
     }
 }

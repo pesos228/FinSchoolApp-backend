@@ -2,12 +2,9 @@ package com.finchool.server.controller;
 
 import com.finchool.server.dto.GoalDtoList;
 import com.finchool.server.dto.GoalDtoSave;
-import com.finchool.server.dto.UserAndroidIdDto;
 import com.finchool.server.service.GoalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/goal")
@@ -30,8 +27,9 @@ public class GoalController {
         goalService.update(goalDtoList);
     }
 
-    @GetMapping
-    public List<GoalDtoList> getGoal(@RequestBody UserAndroidIdDto userAndroidIdDto){
-        return goalService.findByAndroidId(userAndroidIdDto.getAndroidId());
+    @DeleteMapping("/{id}")
+    public void deleteGoal(@PathVariable int id){
+        goalService.deleteById(id);
     }
+
 }

@@ -7,7 +7,6 @@ import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 
 @Repository
 public class GoalRepositoryImpl implements GoalRepository {
@@ -21,17 +20,6 @@ public class GoalRepositoryImpl implements GoalRepository {
             entityManager.merge(goal);
         } else {
             entityManager.persist(goal);
-        }
-    }
-
-    @Override
-    public List<Goal> findByAndroidId(int id) {
-        try {
-            return entityManager.createQuery("SELECT g FROM Goal g JOIN g.users u WHERE u.androidId = :androidId", Goal.class)
-                    .setParameter("androidId", id)
-                    .getResultList();
-        }catch (NoResultException e){
-            return null;
         }
     }
 
@@ -54,6 +42,14 @@ public class GoalRepositoryImpl implements GoalRepository {
                     .getSingleResult();
         }catch (NoResultException e){
             return null;
+        }
+    }
+
+    @Override
+    public void deleteById(int id) {
+        Goal goal = findById(id);
+        if (goal != null){
+            entityManager.remove(goal);
         }
     }
 }
