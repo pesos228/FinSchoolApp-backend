@@ -1,9 +1,6 @@
 package com.finchool.server.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,11 +10,13 @@ import java.util.List;
 public class Theme extends BaseEntity{
     private String name;
     private List<User> users = new ArrayList<>();
+    private List<Article> articles = new ArrayList<>();
     protected Theme(){}
 
-    public Theme(String name, List<User> users) {
+    public Theme(String name, List<User> users, List<Article> articles) {
         this.name = name;
         this.users = users;
+        this.articles = articles;
     }
 
     @Column(nullable = false, unique = true, name = "name")
@@ -36,5 +35,14 @@ public class Theme extends BaseEntity{
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    @OneToMany(mappedBy = "theme")
+    public List<Article> getArticles() {
+        return articles;
+    }
+
+    public void setArticles(List<Article> articles) {
+        this.articles = articles;
     }
 }
