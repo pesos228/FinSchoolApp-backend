@@ -1,6 +1,5 @@
 package com.finchool.server.exceptions.advice;
 
-import com.finchool.server.entities.Goal;
 import com.finchool.server.exceptions.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -55,7 +54,23 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseBody
+    @ExceptionHandler(ArticleNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String articleNotFoundException(ArticleNotFoundException e){return  e.getMessage();}
+
+    @ResponseBody
     @ExceptionHandler(ThemeNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     String themeNotFoundException(ThemeNotFoundException e){return e.getMessage();}
+
+    @ResponseBody
+    @ExceptionHandler(ThemeAlreadySavedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String themeAlreadySavedException(ThemeAlreadySavedException e){return e.getMessage();}
+
+    @ResponseBody
+    @ExceptionHandler(ThemeNotSavedException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    String themeNotSavedException(ThemeNotSavedException e){return e.getMessage();}
+
 }

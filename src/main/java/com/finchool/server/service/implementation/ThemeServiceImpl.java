@@ -9,6 +9,7 @@ import com.finchool.server.service.ThemeService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,11 +27,13 @@ public class ThemeServiceImpl implements ThemeService {
     }
 
     @Override
+    @Transactional
     public void save(ThemeDto theme) {
         themeRepository.save(modelMapper.map(theme, Theme.class));
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         Theme theme = themeRepository.findById(id);
         if (theme == null){

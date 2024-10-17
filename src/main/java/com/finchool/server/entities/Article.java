@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Article extends BaseEntity{
     private String title;
     private String content;
-    private Theme theme;
+    private Theme themeId;
 
     @Column(name = "title", nullable = false)
     public String getTitle() {
@@ -30,10 +30,10 @@ public class Article extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "theme_id", nullable = false)
     public Theme getTheme() {
-        return theme;
+        return themeId;
     }
 
     public void setTheme(Theme theme) {
-        this.theme = theme;
+        this.themeId = theme;
     }
 }

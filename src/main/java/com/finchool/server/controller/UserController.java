@@ -1,9 +1,6 @@
 package com.finchool.server.controller;
 
-import com.finchool.server.dto.AchievementNameDto;
-import com.finchool.server.dto.AddAchievementToUserDto;
-import com.finchool.server.dto.GoalDtoList;
-import com.finchool.server.dto.UserDto;
+import com.finchool.server.dto.*;
 import com.finchool.server.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -45,8 +42,24 @@ public class UserController {
         return userService.getUserAchievements(id);
     }
 
+    @PostMapping("/themes/add")
+    public void addThemeInFavoriteList(@RequestBody ThemeToOrFromFavoriteDto themeToOrFromFavoriteDto){
+        userService.addThemeToFavorite(themeToOrFromFavoriteDto);
+    }
+
+    @PostMapping("/themes/remove")
+    public void removeThemeFromFavoriteList(@RequestBody ThemeToOrFromFavoriteDto themeToOrFromFavoriteDto){
+        userService.removeThemeFromFavorite(themeToOrFromFavoriteDto);
+    }
+
+    @GetMapping("/themes/{id}")
+    public List<ThemeDtoList> getSavedTheme(@PathVariable int id){
+        return userService.getUserSavedThemes(id);
+    }
+
     @GetMapping("/goals/{id}")
     public List<GoalDtoList> getGoal(@PathVariable int id){
         return userService.getUserGoals(id);
     }
+
 }

@@ -1,14 +1,12 @@
 package com.finchool.server.service.implementation;
 
-import com.finchool.server.dto.AchievementNameDto;
-import com.finchool.server.dto.AddAchievementToUserDto;
-import com.finchool.server.dto.GoalDtoList;
-import com.finchool.server.dto.UserDto;
+import com.finchool.server.dto.*;
 import com.finchool.server.entities.Achievement;
+import com.finchool.server.entities.Theme;
 import com.finchool.server.entities.User;
-import com.finchool.server.exceptions.AchievementNotFoundException;
-import com.finchool.server.exceptions.UserNotFoundException;
+import com.finchool.server.exceptions.*;
 import com.finchool.server.repository.AchievementRepository;
+import com.finchool.server.repository.ThemeRepository;
 import com.finchool.server.repository.UserRepository;
 import com.finchool.server.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -23,12 +21,14 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final AchievementRepository achievementRepository;
+    private final ThemeRepository themeRepository;
     private final ModelMapper modelMapper;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository, AchievementRepository achievementRepository, ModelMapper modelMapper) {
+    public UserServiceImpl(UserRepository userRepository, AchievementRepository achievementRepository, ThemeRepository themeRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
         this.achievementRepository = achievementRepository;
+        this.themeRepository = themeRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -77,6 +77,49 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
+    public void addThemeToFavorite(ThemeToOrFromFavoriteDto themeToOrFromFavoriteDto) {
+        User user = userRepository.findByAndroidId(themeToOrFromFavoriteDto.getAndroidId());
+        if (user == null){
+            throw new UserNotFoundException("User with android_id "+ themeToOrFromFavoriteDto.getAndroidId()+" not found");
+        }
+        Theme theme = themeRepository.findById(themeToOrFromFavoriteDto.getThemeId());
+        if (theme == null){
+            throw new ThemeNotFoundException("Theme with ID: "+ themeToOrFromFavoriteDto.getThemeId() + " not found");
+        }
+        List<Theme> savedThemes = user.getSavedThemes();
+        if (savedThemes.contains(theme)){
+            throw new ThemeAlreadySavedException("User with androidId: " + themeToOrFromFavoriteDto.getAndroidId() + " already saved theme with ID: " + themeToOrFromFavoriteDto.getThemeId());
+        }
+        savedThemes.add(theme);
+        user.setSavedThemes(savedThemes);
+        userRepository.save(user);
+
+    }
+
+    @Override
+    @Transactional
+    public void removeThemeFromFavorite(ThemeToOrFromFavoriteDto themeToOrFromFavoriteDto) {
+        User user = userRepository.findByAndroidId(themeToOrFromFavoriteDto.getAndroidId());
+        if (user == null){
+            throw new UserNotFoundException("User with android_id "+ themeToOrFromFavoriteDto.getAndroidId()+" not found");
+        }
+        Theme theme = themeRepository.findById(themeToOrFromFavoriteDto.getThemeId());
+        if (theme == null){
+            throw new ThemeNotFoundException("Theme with ID: "+ themeToOrFromFavoriteDto.getThemeId() + " not found");
+        }
+        List<Theme> savedThemes = user.getSavedThemes();
+        if (!savedThemes.contains(theme)){
+            throw new ThemeNotSavedException("User with androidId: " + themeToOrFromFavoriteDto.getAndroidId() + " not have theme with ID: " + themeToOrFromFavoriteDto.getThemeId()
+            + " in favorite list");
+        }
+        savedThemes.remove(theme);
+        user.setSavedThemes(savedThemes);
+        userRepository.save(user);
+
+    }
+
+    @Override
     public UserDto findUserByAndroidId(int id) {
         User user = userRepository.findByAndroidId(id);
         if (user == null) {
@@ -107,5 +150,15 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
     }
 
+    @Override
+    public List<ThemeDtoList> getUserSavedThemes(int id) {
+        User user = userRepository.findByAndroidId(id);
+        if(user == null){
+            throw new UserNotFoundException("User not found with Android ID: " +id);
+        }
+        return userRepository.getUserSavedThemes(id).stream()
+                .map(theme -> modelMapper.map(theme, ThemeDtoList.class))
+                .collect(Collectors.toList());
+    }
 
 }
