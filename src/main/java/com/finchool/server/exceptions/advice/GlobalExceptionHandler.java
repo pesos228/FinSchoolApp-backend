@@ -59,18 +59,28 @@ public class GlobalExceptionHandler {
     String articleNotFoundException(ArticleNotFoundException e){return  e.getMessage();}
 
     @ResponseBody
-    @ExceptionHandler(ThemeNotFoundException.class)
+    @ExceptionHandler(ModuleNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String themeNotFoundException(ThemeNotFoundException e){return e.getMessage();}
+    String moduleNotFoundException(ModuleNotFoundException e){return e.getMessage();}
 
     @ResponseBody
-    @ExceptionHandler(ThemeAlreadySavedException.class)
+    @ExceptionHandler(ArticleAlreadySavedException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    String themeAlreadySavedException(ThemeAlreadySavedException e){return e.getMessage();}
+    String articleAlreadySavedException(ArticleAlreadySavedException e){return e.getMessage();}
 
     @ResponseBody
-    @ExceptionHandler(ThemeNotSavedException.class)
+    @ExceptionHandler(ArticleNotSavedException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    String themeNotSavedException(ThemeNotSavedException e){return e.getMessage();}
+    String articleNotSavedException(ArticleNotSavedException e){return e.getMessage();}
+
+    @ResponseBody
+    @ExceptionHandler(ModuleNameOrDescriptionNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String moduleNameOrTitleNotFoundException(ModuleNameOrDescriptionNotFoundException e){return e.getMessage();}
+
+    @ResponseBody
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    String illegalArgumentException(IllegalArgumentException e){return e.getMessage();}
 
 }

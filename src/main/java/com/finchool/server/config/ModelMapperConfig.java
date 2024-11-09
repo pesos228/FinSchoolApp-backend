@@ -28,7 +28,7 @@ public class ModelMapperConfig {
                 map().setAndroidId(source.getAndroidId());
                 map().setName(source.getName());
                 skip().setAchievementsReceived(null);
-                skip().setSavedThemes(null);
+                skip().setSavedArticle(null);
             }
         });
 

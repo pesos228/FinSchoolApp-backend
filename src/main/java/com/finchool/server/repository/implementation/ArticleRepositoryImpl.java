@@ -48,4 +48,11 @@ public class ArticleRepositoryImpl implements ArticleRepository {
             entityManager.remove(article);
         }
     }
+
+    @Override
+    public List<Article> findByModuleId(int id) {
+        return entityManager.createQuery("SELECT a FROM Article a JOIN a.module m WHERE m.id = :id", Article.class)
+                .setParameter("id", id)
+                .getResultList();
+    }
 }

@@ -11,16 +11,16 @@ public class User extends BaseEntity {
     private int androidId;
     private String name;
     private int lvl = 1;
-    private List<Theme> savedThemes = new ArrayList<>();
+    private List<Article> savedArticle = new ArrayList<>();
     private List<Achievement> achievementsReceived = new ArrayList<>();
     private List<Goal> goals = new ArrayList<>();
     protected User(){}
 
-    public User(int androidId, String name, int lvl, List<Theme> savedThemes, List<Achievement> achievementsReceived, List<Goal> goals) {
+    public User(int androidId, String name, int lvl, List<Article> savedArticle, List<Achievement> achievementsReceived, List<Goal> goals) {
         this.androidId = androidId;
         this.name = name;
         this.lvl = lvl;
-        this.savedThemes = savedThemes;
+        this.savedArticle = savedArticle;
         this.achievementsReceived = achievementsReceived;
         this.goals = goals;
     }
@@ -63,16 +63,16 @@ public class User extends BaseEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "saved_theme",
+            name = "saved_articles",
             joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "theme_id")
+            inverseJoinColumns = @JoinColumn(name = "article_id")
     )
-    public List<Theme> getSavedThemes() {
-        return savedThemes;
+    public List<Article> getSavedArticle() {
+        return savedArticle;
     }
 
-    public void setSavedThemes(List<Theme> savedThemes) {
-        this.savedThemes = savedThemes;
+    public void setSavedArticle(List<Article> savedArticle) {
+        this.savedArticle = savedArticle;
     }
 
     @ManyToMany

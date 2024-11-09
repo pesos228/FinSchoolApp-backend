@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ThemeToOrFromFavoriteDto {
-    private int androidId;
-    private int themeId;
+public class ModuleDto {
+    private String name;
+    private String description;
 }

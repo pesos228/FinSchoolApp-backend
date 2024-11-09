@@ -1,5 +1,6 @@
 package com.finchool.server.repository;
 
+import com.finchool.server.dto.ArticleDtoList;
 import com.finchool.server.entities.Article;
 
 import java.util.List;
@@ -9,4 +10,5 @@ public interface ArticleRepository {
     List<Article> findAll();
     Article findById(int id);
     void deleteById(int id);
+    List<Article> findByModuleId(int id);
 }

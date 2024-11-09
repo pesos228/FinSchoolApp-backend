@@ -1,8 +1,8 @@
 package com.finchool.server.repository.implementation;
 
 import com.finchool.server.entities.Achievement;
+import com.finchool.server.entities.Article;
 import com.finchool.server.entities.Goal;
-import com.finchool.server.entities.Theme;
 import com.finchool.server.entities.User;
 import com.finchool.server.repository.UserRepository;
 import jakarta.persistence.EntityManager;
@@ -52,8 +52,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<Theme> getUserSavedThemes(int id) {
-        return entityManager.createQuery("SELECT t FROM Theme t JOIN t.users u WHERE u.androidId = :id", Theme.class)
+    public List<Article> getUserSavedArticles(int id) {
+        return entityManager.createQuery("SELECT a FROM Article a JOIN a.users u WHERE u.androidId = :id", Article.class)
                 .setParameter("id", id)
                 .getResultList();
     }

@@ -8,5 +8,5 @@ import lombok.Setter;
 public class ArticleDto {
     private String title;
     private String content;
-    private int themeId;
+    private int moduleId;
 }

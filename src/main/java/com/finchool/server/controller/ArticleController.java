@@ -33,6 +33,9 @@ public class ArticleController {
         return articleService.findById(id);
     }
 
+    @GetMapping("/module/{id}")
+    public List<ArticleDtoList> findByModuleId(@PathVariable int id){return articleService.findByModuleId(id);}
+
     @DeleteMapping("/{id}")
     public void deleteById(@PathVariable int id){
         articleService.deleteById(id);

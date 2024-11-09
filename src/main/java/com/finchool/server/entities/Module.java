@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "theme")
-public class Theme extends BaseEntity{
+@Table(name = "module")
+public class Module extends BaseEntity{
     private String name;
-    private List<User> users = new ArrayList<>();
+    private String description;
     private List<Article> articles = new ArrayList<>();
-    protected Theme(){}
+    protected Module(){}
 
-    public Theme(String name, List<User> users, List<Article> articles) {
+    public Module(String name, String description, List<Article> articles) {
         this.name = name;
-        this.users = users;
+        this.description = description;
         this.articles = articles;
     }
 
@@ -28,16 +28,16 @@ public class Theme extends BaseEntity{
         this.name = name;
     }
 
-    @ManyToMany(mappedBy = "savedThemes")
-    public List<User> getUsers() {
-        return users;
+    @Column(nullable = false, name = "description")
+    public String getDescription() {
+        return description;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    @OneToMany(mappedBy = "theme")
+    @OneToMany(mappedBy = "module", cascade = CascadeType.REMOVE)
     public List<Article> getArticles() {
         return articles;
     }

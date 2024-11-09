@@ -10,4 +10,5 @@ public interface ArticleService {
     List<ArticleDtoList> findAll();
     ArticleDto findById(int id);
     void deleteById(int id);
+    List<ArticleDtoList> findByModuleId(int id);
 }

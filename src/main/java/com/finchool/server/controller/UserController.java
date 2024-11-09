@@ -42,19 +42,19 @@ public class UserController {
         return userService.getUserAchievements(id);
     }
 
-    @PostMapping("/themes/add")
-    public void addThemeInFavoriteList(@RequestBody ThemeToOrFromFavoriteDto themeToOrFromFavoriteDto){
-        userService.addThemeToFavorite(themeToOrFromFavoriteDto);
+    @PostMapping("/article/add")
+    public void addArticleInFavoriteList(@RequestBody ArticleToOrFromFavoriteDto articleToOrFromFavoriteDto){
+        userService.addArticleToFavorite(articleToOrFromFavoriteDto);
     }
 
-    @PostMapping("/themes/remove")
-    public void removeThemeFromFavoriteList(@RequestBody ThemeToOrFromFavoriteDto themeToOrFromFavoriteDto){
-        userService.removeThemeFromFavorite(themeToOrFromFavoriteDto);
+    @PostMapping("/article/remove")
+    public void removeArticleFromFavoriteList(@RequestBody ArticleToOrFromFavoriteDto articleToOrFromFavoriteDto){
+        userService.removeArticleFromFavorite(articleToOrFromFavoriteDto);
     }
 
-    @GetMapping("/themes/{id}")
-    public List<ThemeDtoList> getSavedTheme(@PathVariable int id){
-        return userService.getUserSavedThemes(id);
+    @GetMapping("/article/{id}")
+    public List<ArticleDto> getSavedArticle(@PathVariable int id){
+        return userService.getUserSavedArticles(id);
     }
 
     @GetMapping("/goals/{id}")

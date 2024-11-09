@@ -9,5 +9,5 @@ public class ArticleDtoList {
     private int id;
     private String title;
     private String content;
-    private int themeId;
+    private int moduleId;
 }

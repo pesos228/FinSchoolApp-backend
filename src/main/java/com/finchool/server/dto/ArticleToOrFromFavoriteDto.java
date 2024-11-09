@@ -5,6 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ThemeDto {
-    private String name;
+public class ArticleToOrFromFavoriteDto {
+    private int androidId;
+    private int articleId;
 }

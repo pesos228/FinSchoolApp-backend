@@ -5,7 +5,8 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ThemeDtoList {
+public class ModuleDtoList {
     private int id;
     private String name;
+    private String description;
 }

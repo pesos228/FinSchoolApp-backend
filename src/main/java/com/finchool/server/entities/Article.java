@@ -2,12 +2,27 @@ package com.finchool.server.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "article")
 public class Article extends BaseEntity{
     private String title;
     private String content;
-    private Theme themeId;
+    private Module module;
+    private List<User> users = new ArrayList<>();
+
+    protected Article(){
+
+    }
+
+    public Article(String title, String content, Module module, List<User> users) {
+        this.title = title;
+        this.content = content;
+        this.module = module;
+        this.users = users;
+    }
 
     @Column(name = "title", nullable = false)
     public String getTitle() {
@@ -28,12 +43,21 @@ public class Article extends BaseEntity{
     }
 
     @ManyToOne
-    @JoinColumn(name = "theme_id", nullable = false)
-    public Theme getTheme() {
-        return themeId;
+    @JoinColumn(name = "module_id", nullable = false)
+    public Module getModule() {
+        return module;
     }
 
-    public void setTheme(Theme theme) {
-        this.themeId = theme;
+    public void setModule(Module module) {
+        this.module = module;
+    }
+
+    @ManyToMany(mappedBy = "savedArticle")
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
